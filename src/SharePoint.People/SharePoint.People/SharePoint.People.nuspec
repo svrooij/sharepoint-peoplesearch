@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>Stephan van Rooij</authors>
+    <owners>Stephan van Rooij</owners>
+    <licenseUrl>https://raw.githubusercontent.com/svrooij/sharepoint-peoplesearch/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/svrooij/sharepoint-peoplesearch</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>Initial release</releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags>SharePoint Search Query Peoplesearch</tags>
+  </metadata>
+</package>

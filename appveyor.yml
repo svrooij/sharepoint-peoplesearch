@@ -1,0 +1,29 @@
+version: 1.0.0.{build}
+branches:
+  only:
+  - master
+configuration: Release
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
+before_build:
+- nuget restore
+build:
+  project: src\SharePoint.People.sln
+  publish_nuget: true
+  verbosity: minimal
+artifacts:
+- path: src\SharePoint.People\bin\Release\SharePoint.People.dll
+  name: SharePoint.People.dll
+- path: src\SharePoint.People\bin\Release\SharePoint.People.xml
+  name: SharePoint.People.xml
+- path: '**\SharePoint.People.*.nupkg'
+deploy:
+  provider: NuGet
+  api_key:
+    secure: 0qbuPrrnu/qrD5eHEA3maAR7qt6Vg9oOfaoYtqWzcjZNSxoaZYqx+1gztJml805p
+  skip_symbols: false
+  artifact: /.*\.nupkg/
