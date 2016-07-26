@@ -17,16 +17,25 @@ namespace SharePoint.People
         /// <param name="trySplitValue">Should we try to spilt this value into a array?</param>
         public SearchPropertyAttribute(string searchPropertyKey, bool trySplitValue = false)
         {
+            if (string.IsNullOrWhiteSpace(searchPropertyKey))
+                throw new ArgumentNullException("searchPropertyKey", "The searchPropertyKey cannot be empty!");
+
             this.searchPropertyKey = searchPropertyKey;
             this.trySplitValue = trySplitValue;
 
         }
 
+        /// <summary>
+        /// The key in the search result property
+        /// </summary>
         public string SearchPropertyKey
         {
             get { return searchPropertyKey; }
         }
 
+        /// <summary>
+        /// Is this value a string array devided by ';'
+        /// </summary>
         public bool TrySplitValue { get { return trySplitValue; } }
     }
 }

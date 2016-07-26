@@ -47,7 +47,7 @@ namespace SharePoint.People
         }
 
         /// <summary>
-        /// Query sharepoint for people. (short for GetPeopleByQuery<Person>(string query..))
+        /// Query sharepoint for people. (short for GetPeopleByQuery Person(string query..))
         /// </summary>
         /// <param name="query">Your sharepoint query string</param>
         /// <param name="loadExtraProperties">By default not all properties are returned by the search. Set to true to load all properties with SeachPropertyAttribute defined.</param>
@@ -94,7 +94,7 @@ namespace SharePoint.People
         }
 
         /// <summary>
-        /// Get a userprofile by accountName. (Short for client.GetPersonByAccount<Person>(accountName))
+        /// Get a userprofile by accountName. (Short for client.GetPersonByAccount Person(accountName))
         /// </summary>
         /// <param name="accountName">The name of the account your want to load the profile for.</param>
         public Person GetPersonByAccount(string accountName)
@@ -117,6 +117,9 @@ namespace SharePoint.People
             return ObjectCreator.CreateNewFromUserProperties<T>(personProperties);
         }
 
+        /// <summary>
+        /// Dispose the SharePointClient. This will rended the object in an unusable state.
+        /// </summary>
         public void Dispose()
         {
             context.Dispose();

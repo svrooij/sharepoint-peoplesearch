@@ -13,5 +13,8 @@
     <releaseNotes>Initial release</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>SharePoint Search Query Peoplesearch</tags>
+    <dependencies>
+        <dependency id="Microsoft.SharePointOnline.CSOM" version="16.1.5326.1200" />
+    </dependencies>
   </metadata>
 </package>
