@@ -1,24 +1,23 @@
-version: 1.0.0.{build}
-branches:
-  only:
-  - master
+version: 1.0.{build}
 configuration: Release
+platform: Any CPU
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
   assembly_version: '{version}'
   assembly_file_version: '{version}'
   assembly_informational_version: '{version}'
-before_build:
-- nuget restore
+
+nuget:
+  project_feed: true
 build:
-  project: src\SharePoint.People\SharePoint.People.sln
+  project: src\SharePoint.People.sln
   publish_nuget: true
   verbosity: minimal
 artifacts:
-- path: src\SharePoint.People\SharePoint.People\bin\Release\SharePoint.People.dll
+- path: src\SharePoint.People\bin\Release\SharePoint.People.dll
   name: SharePoint.People.dll
-- path: src\SharePoint.People\SharePoint.People\bin\Release\SharePoint.People.xml
+- path: src\SharePoint.People\bin\Release\SharePoint.People.xml
   name: SharePoint.People.xml
 - path: '**\SharePoint.People.*.nupkg'
 deploy:
