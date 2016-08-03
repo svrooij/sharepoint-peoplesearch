@@ -19,20 +19,25 @@ namespace SharePoint.People
             T person = Activator.CreateInstance<T>();
 
             // Get all properties with the 'SearchPropertyAttribute' defined.
-            var properties = typeof(T).GetProperties().Where(property => Attribute.IsDefined(property, typeof(SearchPropertyAttribute)));
-            // TODO Try to match on PropertyName.
-            //  || searchResult.ContainsKey(property.Name)
-
+            var properties = typeof(T).GetProperties().Where(property => 
+                Attribute.IsDefined(property, typeof(SearchPropertyAttribute))
+                || searchResult.ContainsKey(property.Name)
+            ).ToList();
+            
             // There should be at least one property defined.
             if (!properties.Any())
-                throw new InvalidCastException("No search property attributes defined in this class");
+                throw new InvalidCastException("No SearchPropertyAttributes or matching property names found in "+typeof(T).Name);
 
             // Loop through the properties and try to set the value on 'person'.
             foreach (var property in properties)
             {
 
                 var attribute = property.GetCustomAttributes(typeof(SearchPropertyAttribute), false).SingleOrDefault() as SearchPropertyAttribute;
-                if (searchResult.ContainsKey(attribute.SearchPropertyKey))
+                if(attribute == null) // The attribute could not be loaded so the PropertyName should match. The attribute always has precedence!
+                {
+                    property.SetValue(person, searchResult[property.Name]);
+                }
+                else if (searchResult.ContainsKey(attribute.SearchPropertyKey))
                 {
                     // Some properties are returned as a string, but are actually a multi-value field. Like the Responsibilities.
                     if (attribute.TrySplitValue)
@@ -58,15 +63,22 @@ namespace SharePoint.People
         {
             T person = Activator.CreateInstance<T>();
 
-            var properties = typeof(T).GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(UserProfileAttribute)));
+            var properties = typeof(T).GetProperties().Where(property => 
+                Attribute.IsDefined(property, typeof(UserProfileAttribute)) ||
+                profile.UserProfileProperties.ContainsKey(property.Name)
+            ).ToList();
 
             if (!properties.Any())
-                throw new InvalidCastException("No profile attributes defined in this class");
+                throw new InvalidCastException("No UserProfileAttributes or matching property names found in " + typeof(T).Name);
 
             foreach (var property in properties)
             {
-                var attribute = property.GetCustomAttributes(typeof(UserProfileAttribute), false).Single() as UserProfileAttribute;
-                if (profile.UserProfileProperties.ContainsKey(attribute.UserProfileKey))
+                var attribute = property.GetCustomAttributes(typeof(UserProfileAttribute), false).SingleOrDefault() as UserProfileAttribute;
+                if (attribute == null)// The attribute could not be loaded so the PropertyName should match. The attribute always has precedence!
+                {
+                    property.SetValue(person, profile.UserProfileProperties[property.Name]);
+                }
+                else if (profile.UserProfileProperties.ContainsKey(attribute.UserProfileKey))
                 {
                     if (attribute.TrySplitValue)
                     {
