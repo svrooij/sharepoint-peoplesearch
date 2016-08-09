@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 namespace SharePoint.People
 {
     /// <summary>
@@ -10,12 +11,13 @@ namespace SharePoint.People
         /// <summary>
         /// About me field on the user profile
         /// </summary>
+        [DefaultValue("")]
         public string AboutMe { get; set; }
-
 
         /// <summary>
         /// Users department
         /// </summary>
+        [DefaultValue("")]
         public string Department { get; set; }
 
         /// <summary>
@@ -28,6 +30,7 @@ namespace SharePoint.People
         /// <summary>
         /// Work Email Address of the user.
         /// </summary>
+        [DefaultValue("")]
         [SearchProperty("WorkEmail")]
         [UserProfile("WorkEmail")]
         public string EmailAddress { get; set; }
@@ -42,12 +45,15 @@ namespace SharePoint.People
         /// <summary>
         /// The date this entry was last modified in the search engine.
         /// </summary>
+        /// <remarks>This property doesn't seem to be available in the user profile database, please let us know if you've found a way.</remarks>
         [SearchProperty("LastModifiedTime")]
         public DateTime? LastModified { get; set; }
 
         /// <summary>
-        /// The Office of the user. (only loaded from search with loadPropertiesFromAttributes = true)
+        /// The Office of the user.
         /// </summary>
+        /// <remarks>By default this property is not loaded from search,  set 'loadPropertiesFromAttributes = true' if you need this property right from search.</remarks>
+        [DefaultValue("")]
         [SearchProperty("OfficeNumber")]
         public string Office { get; set; }
 
@@ -75,6 +81,7 @@ namespace SharePoint.People
         /// <summary>
         /// JobTitle of the user
         /// </summary>
+        [DefaultValue("")]
         [SearchProperty("JobTitle")]
         public string Title { get; set; }
 

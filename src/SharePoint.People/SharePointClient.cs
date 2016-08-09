@@ -14,10 +14,21 @@ namespace SharePoint.People
     public class SharePointClient : IDisposable
     {
         ClientContext context;
+
         /// <summary>
         /// Create a new SharePoint Client
         /// </summary>
-        /// <param name="webFullUrl">The url to the sharepoint site. To load a user profile, make sure you use the mysite url.</param>
+        /// <param name="webFullUrl">The url to the sharepoint site.</param>
+        /// <remarks>This should use the credentials of the current user, but this might not work in some situations.</remarks>
+        public SharePointClient(string webFullUrl)
+        {
+            context = new ClientContext(webFullUrl);
+        }
+
+        /// <summary>
+        /// Create a new SharePoint Client
+        /// </summary>
+        /// <param name="webFullUrl">The url to the sharepoint site.</param>
         /// <param name="credentials">The credentials to use to connect to SharePoint.</param>
         public SharePointClient(string webFullUrl, ICredentials credentials)
         {
@@ -25,6 +36,15 @@ namespace SharePoint.People
             {
                 Credentials = credentials
             };
+        }
+
+        /// <summary>
+        /// Access the ClientContext in your own project.
+        /// </summary>
+        /// <remarks>Use with caution!!</remarks>
+        public ClientContext Context
+        {
+            get { return context; }
         }
 
         
@@ -128,7 +148,7 @@ namespace SharePoint.People
         }
 
         /// <summary>
-        /// Dispose the SharePointClient. This will rended the object in an unusable state.
+        /// Dispose the SharePointClient. This will render the object in an unusable state.
         /// </summary>
         public void Dispose()
         {

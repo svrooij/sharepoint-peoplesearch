@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/svrooij/sharepoint-peoplesearch</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Added matching based on property names</releaseNotes>
+    <releaseNotes>Added DefaultValueAttribute to Person class and made the internal ClientContext public.</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>SharePoint Search Query Peoplesearch</tags>
     <dependencies>
