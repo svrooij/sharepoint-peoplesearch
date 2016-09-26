@@ -47,7 +47,6 @@ namespace SharePoint.People
             get { return context; }
         }
 
-        
         /// <summary>
         /// Get all terms in the default termstore. Can be used to make an autocomplete to query users.
         /// </summary>
@@ -73,6 +72,7 @@ namespace SharePoint.People
         /// <param name="rowLimit">Maximum number of results</param>
         /// <param name="loadPropertiesFromAttributes">By default not all properties are returned by the search. Set to true to load all properties with SeachPropertyAttribute defined.</param>
         /// <param name="extraProperties">Extra properties that will be loaded from sharepoint</param>
+        /// <remarks>You can only return properties marked as 'Retrievable' in Central Admin => Manage service applications => Search Service => Searche schema => Managed properties</remarks>
         public IEnumerable<Person> GetPeopleByQuery(string query, int rowLimit = 250, bool loadPropertiesFromAttributes = false, params string[] extraProperties)
         {
             return GetPeopleByQuery<Person>(query, rowLimit, loadPropertiesFromAttributes,extraProperties);
@@ -86,6 +86,7 @@ namespace SharePoint.People
         /// <param name="rowLimit">Maximum number of results</param>
         /// <param name="loadPropertiesFromAttributes">By default not all properties are returned by the search. Set to true to load all properties with SeachPropertyAttribute defined.</param>
         /// <param name="extraProperties">Extra properties that will be loaded from sharepoint</param>
+        /// <remarks>You can only return properties marked as 'Retrievable' in Central Admin => Manage service applications => Search Service => Searche schema => Managed properties</remarks>
         public IEnumerable<T> GetPeopleByQuery<T>(string query, int rowLimit = 250, bool loadPropertiesFromAttributes = false,params string[] extraProperties) where T : class, new()
         {
             // Create a new query, the guid is static to only return people
@@ -134,6 +135,17 @@ namespace SharePoint.People
         }
 
         /// <summary>
+        /// Get a userprofile by accountName, with PersonProperties. (Short for client.GetPersonByAccount Person(accountName,out personProperties))
+        /// </summary>
+        /// <param name="accountName">The name of the account your want to load the profile for.</param>
+        /// <param name="personProperties">The loaded person properties, used internally to set all properties on Person.</param>
+        /// <returns></returns>
+        public Person GetPersonByAccount(string accountName,out PersonProperties personProperties)
+        {
+            return GetPersonByAccount<Person>(accountName,out personProperties);
+        }
+
+        /// <summary>
         /// Get a userprofile
         /// </summary>
         /// <typeparam name="T">The type to which the profile will be casted to. Be sure to include at least one UserProfileAttribute or property with a matching name!</typeparam>
@@ -142,6 +154,21 @@ namespace SharePoint.People
         {
             var pm = new PeopleManager(context);
             var personProperties = pm.GetPropertiesFor(accountName);
+            context.Load(personProperties);
+            context.ExecuteQuery();
+            return ObjectCreator.CreateNewFromUserProperties<T>(personProperties);
+        }
+
+        /// <summary>
+        /// Get a userprofile, with PersonProperties.
+        /// </summary>
+        /// <typeparam name="T">The type to which the profile will be casted to. Be sure to include at least one UserProfileAttribute or property with a matching name!</typeparam>
+        /// <param name="accountName">The name of the account your want to load the profile for.</param>
+        /// <param name="personProperties">The loaded person properties, used internal to set all properties on <typeparamref name="T"/></param>
+        public T GetPersonByAccount<T>(string accountName,out PersonProperties personProperties) where T : class, new()
+        {
+            var pm = new PeopleManager(context);
+            personProperties = pm.GetPropertiesFor(accountName);
             context.Load(personProperties);
             context.ExecuteQuery();
             return ObjectCreator.CreateNewFromUserProperties<T>(personProperties);

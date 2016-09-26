@@ -10,11 +10,11 @@
     <projectUrl>https://github.com/svrooij/sharepoint-peoplesearch</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Added DefaultValueAttribute to Person class and made the internal ClientContext public.</releaseNotes>
+    <releaseNotes>Added First and Lastname to Person class and allow access to PersonProperties.</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>SharePoint Search Query Peoplesearch</tags>
     <dependencies>
-        <dependency id="Microsoft.SharePointOnline.CSOM" version="16.1.5326.1200" />
+        <dependency id="Microsoft.SharePointOnline.CSOM" version="16.1.5626.1200" />
     </dependencies>
   </metadata>
 </package>

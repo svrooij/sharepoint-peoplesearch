@@ -36,6 +36,13 @@ namespace SharePoint.People
         public string EmailAddress { get; set; }
 
         /// <summary>
+        /// FirstName of the user.
+        /// </summary>
+        [DefaultValue("")]
+        [SearchProperty("FirstName")]
+        public string FirstName { get; set; }
+
+        /// <summary>
         /// User defined interests (multi-value)
         /// </summary>
         [SearchProperty("Interests", true)]
@@ -48,6 +55,12 @@ namespace SharePoint.People
         /// <remarks>This property doesn't seem to be available in the user profile database, please let us know if you've found a way.</remarks>
         [SearchProperty("LastModifiedTime")]
         public DateTime? LastModified { get; set; }
+
+        /// <summary>
+        /// LastName of the user.
+        /// </summary>
+        [SearchProperty("LastName")]
+        public string LastName { get; set; }
 
         /// <summary>
         /// The Office of the user.
